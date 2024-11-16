@@ -8,9 +8,8 @@ process PBMM2 {
     each path(ref)
 
     output:
-    path "*.bam", emit: bam
-    path "*.bai", emit: bai
-    path "*.log", emit: log
+    tuple val(id), path("${id}.bam"), path("${id}.bam.bai"), emit: bam
+    path "${id}.pbmm2.log", emit: log
 
     script:
     """
