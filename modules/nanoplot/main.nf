@@ -1,16 +1,16 @@
 process NANOPLOT {
     tag "nanoqc"
     label "NanoQC"
-    publishDir "results/nanoqc"
+    publishDir "results/nanoqc/${id}", mode: 'copy'
     
     input:
-    path fastq
+    tuple val(id), path(fastq)
     
     output:
     path "*", emit: qc
     
     script:
     """
-    NanoPlot --fastq ${fastq} --format svg --title ${fastq.simpleName}
+    NanoPlot --fastq ${fastq} --format svg --title ${id}
     """
 }
