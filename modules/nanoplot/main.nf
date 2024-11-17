@@ -11,6 +11,11 @@ process NANOPLOT {
 
     script:
     """
-    NanoPlot --fastq ${fastq} --format svg --title ${id}
+    NanoPlot \
+        --fastq ${fastq} \
+        --format svg \
+        --title ${id} \
+        --tsv_stats \
+        --info_in_report
     """
 }
