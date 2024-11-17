@@ -9,8 +9,8 @@ process VEP {
     each path(vep_cache)
 
     output:
-    path "${id}.PASS.NORM.VEP.vcf", emit: vep_vcf
-    path "${id}.PASS.NORM.VEP.txt", emit: vep_txt
+    tuple val(id), path("${id}.PASS.NORM.VEP.vcf"), emit: vep_vcf
+    tuple val(id), path("${id}.PASS.NORM.VEP.txt"), emit: vep_txt
 
     script:
     """
