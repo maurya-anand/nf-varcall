@@ -13,9 +13,9 @@ nf-varcall is a Nextflow pipeline for variant calling and annotation using PacBi
 
 The pipeline includes the following modules:
 
-- nanoplot: A tool for visualization and quality control of nanopore sequencing data.
-- pbmm2: An aligner for PacBio reads based on minimap2.
-- deepvariant: A deep learning-based variant caller.
+- `nanoplot`: A tool for visualization and quality control of nanopore sequencing data.
+- `pbmm2`: An aligner for PacBio reads based on minimap2.
+- `deepvariant`: A deep learning-based variant caller.
 
 ## Usage
 
@@ -46,7 +46,7 @@ The sample sheet should be a tab-separated file with a header and the following 
 
 Example `sample_sheet.tsv`:
 
-```
+```text
 name    path
 sample1 data/fastq/sample1.hifi.fastq.gz
 sample2 data/fastq/sample2.hifi.fastq.gz
@@ -54,11 +54,16 @@ sample2 data/fastq/sample2.hifi.fastq.gz
 
 ## Output
 
-Results will be stored in the `results_nf-varcall` results directory:
+The pipeline stores results in the `results_nf-varcall` directory by default, which can be changed using the `--outdir` parameter. The outputs are organized into subdirectories corresponding to each module.
 
-- `nanoqc`: Quality control reports
-- `pbmm2`: Alignment files
-- `deepvariant`: Variant calling outputs
+The following directory structure shows how the results are organized:
+
+```bash
+results_nf-varcall/
+├── deepvariant     # Variant calling outputs (.vcf)
+├── nanoqc          # Quality control reports
+└── pbmm2           # Alignment results (.bam)
+```
 
 ## Configuration
 
