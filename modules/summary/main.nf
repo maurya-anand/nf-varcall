@@ -27,7 +27,7 @@ process SUMMARY {
         -b ${bed} \
         -wa > ${vep_id}.PASS.NORM.VEP.ANN.FILTERED.ONTARGET.vcf
     convert_vep_vcf_to_tsv.sh \
-        ${vep_id} \
-        ${vep_id}.PASS.NORM.VEP.ANN.FILTERED.ONTARGET.vcf > ${vep_id}.PASS.NORM.VEP.ANN.FILTERED.ONTARGET.tsv
+        ${vep_id}.PASS.NORM.VEP.ANN.FILTERED.ONTARGET.vcf \
+        ${vep_id}.PASS.NORM.VEP.ANN.FILTERED.ONTARGET.tsv
     """
 }
