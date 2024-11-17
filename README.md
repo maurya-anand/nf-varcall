@@ -11,8 +11,8 @@ nf-varcall is a Nextflow pipeline for variant calling and annotation using PacBi
 
 The pipeline includes the following modules:
 
-- `nanoplot`: A tool for visualization and quality control of nanopore sequencing data.
-- `pbmm2`: An aligner for PacBio reads based on minimap2.
+- `nanoplot`: A tool for visualization and quality control of long-read sequencing data.
+- `pbmm2`: Aligns PacBio Hi-Fi reads to a reference genome.
 - `deepvariant`: A deep learning-based variant caller.
 - `VEP`: Variant Effect Predictor for annotating and predicting the effects of variants.
 
@@ -21,13 +21,23 @@ The pipeline includes the following modules:
 To run the pipeline, execute the following command:
 
 ```bash
-nextflow run main.nf --sample_sheet <sample_sheet.tsv> --reference <reference.fa> --outdir <output_directory>
+nextflow run main.nf \
+    --sample_sheet <sample_sheet.tsv>\
+    --reference <reference.fa>\
+    --vep_cache_dir <vep_cache_dir> \
+    --vep_fork <threads> \
+    [--outdir <output_directory>]
 ```
 
 ### Example
 
 ```bash
-nextflow run main.nf --sample_sheet data/sample_sheet.tsv --reference data/ref/genome.fa --outdir results_nf-varcall
+nextflow run main.nf \
+    --sample_sheet data/sample_sheet.tsv \
+    --reference data/ref/Homo_sapiens.GRCh38.fa \
+    --vep_cache_dir data/vep_cache/ \
+    --vep_fork 4 \
+    --outdir results_nf-varcall
 ```
 
 ## Input
@@ -35,8 +45,8 @@ nextflow run main.nf --sample_sheet data/sample_sheet.tsv --reference data/ref/g
 - `--sample_sheet`: Path to the sample sheet TSV file. Example: `sample_sheet.tsv`
 - `--reference`: Path to the reference genome FASTA file. Example: `data/ref/Homo_sapiens.GRCh38.fa`
 - `--outdir`: Directory where outputs will be saved. Default: `results_nf-varcall`
-- `--vep_cache_dir`: The cache directory for VEP tool for annotation.
-- `--vep_fork`: Parallel threads to be used by VEP tool.
+- `--vep_cache_dir`: Path to the VEP cache directory for variant annotation.
+- `--vep_fork`: Number of threads to use with the VEP tool.
 
 ### Sample Sheet Format
 
