@@ -2,11 +2,10 @@
 
 include { NANOPLOT } from './modules/nanoplot'
 include { PBMM2 } from './modules/pbmm2'
-include {DEEPVARIANT} from './modules/deepvariant'
+include { DEEPVARIANT } from './modules/deepvariant'
 
 workflow {
-    reference = Channel
-        .fromPath(params.reference)
+    reference = Channel.fromPath(params.reference)
 
     sample_ch = Channel
         .fromPath(params.sample_sheet)
