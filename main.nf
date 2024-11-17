@@ -2,6 +2,7 @@
 
 include { NANOPLOT } from './modules/nanoplot'
 include { PBMM2 } from './modules/pbmm2'
+include {DEEPVARIANT} from './modules/deepvariant'
 
 workflow {
     reference = Channel
@@ -14,5 +15,6 @@ workflow {
 
     NANOPLOT(sample_ch)
     PBMM2(sample_ch, reference)
-    PBMM2.out.bam.view()
+    DEEPVARIANT(PBMM2.out.bam, reference)
+    DEEPVARIANT.out.vcf.view()
 }
