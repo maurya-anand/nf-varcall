@@ -1,7 +1,5 @@
 # nf-varcall
 
-## Description
-
 nf-varcall is a Nextflow pipeline for variant calling and annotation using PacBio Hi-Fi sequencing reads.
 
 ## Requirements
@@ -25,19 +23,19 @@ To run the pipeline, execute the following command:
 nextflow run main.nf --sample_sheet <sample_sheet.tsv> --reference <reference.fa> --outdir <output_directory>
 ```
 
-## Example
+### Example
 
 ```bash
 nextflow run main.nf --sample_sheet data/sample_sheet.tsv --reference data/ref/genome.fa --outdir results_nf-varcall
 ```
 
-## Parameters
+## Input
 
 - `--sample_sheet`: Path to the sample sheet TSV file. Example: `sample_sheet.tsv`
 - `--reference`: Path to the reference genome FASTA file. Example: `data/ref/Homo_sapiens.GRCh38.fa`
 - `--outdir`: Directory where outputs will be saved. Default: `results_nf-varcall`
 
-## Sample Sheet Format
+### Sample Sheet Format
 
 The sample sheet should be a tab-separated file with a header and the following columns:
 
@@ -69,6 +67,6 @@ results_nf-varcall/
 
 The pipeline can be customized via the `nextflow.config` file. Adjust settings such as inputs and process-level configurations as needed.
 
-## Running with Docker
+### Running with Docker
 
 Ensure Docker is installed and running. The pipeline uses Docker containers specified in the `conf/process.config` for different processes in the pipeline.
