@@ -14,6 +14,7 @@ The pipeline includes the following modules:
 - `nanoplot`: A tool for visualization and quality control of nanopore sequencing data.
 - `pbmm2`: An aligner for PacBio reads based on minimap2.
 - `deepvariant`: A deep learning-based variant caller.
+- `VEP`: Variant Effect Predictor for annotating and predicting the effects of variants.
 
 ## Usage
 
@@ -34,6 +35,8 @@ nextflow run main.nf --sample_sheet data/sample_sheet.tsv --reference data/ref/g
 - `--sample_sheet`: Path to the sample sheet TSV file. Example: `sample_sheet.tsv`
 - `--reference`: Path to the reference genome FASTA file. Example: `data/ref/Homo_sapiens.GRCh38.fa`
 - `--outdir`: Directory where outputs will be saved. Default: `results_nf-varcall`
+- `--vep_cache_dir`: The cache directory for VEP tool for annotation.
+- `--vep_fork`: Parallel threads to be used by VEP tool.
 
 ### Sample Sheet Format
 
@@ -58,9 +61,10 @@ The following directory structure shows how the results are organized:
 
 ```bash
 results_nf-varcall/
-├── deepvariant     # Variant calling outputs (.vcf)
-├── nanoqc          # Quality control reports
-└── pbmm2           # Alignment results (.bam)
+├── nanoqc      # Quality control reports (.txt)
+├── pbmm2       # Alignment results (.bam)
+├── deepvariant # Variant calling outputs (.vcf)
+└── vep         # Annotated variants (.vcf)
 ```
 
 ## Configuration
