@@ -13,10 +13,9 @@ workflow {
         .fromPath(params.sample_sheet)
         .splitCsv(header: true, sep: '\t')
         .map { row -> tuple(row.name, file(row.path)) }
-    targets = Channel.fromPath(params.targets_bed)
     NANOPLOT(sample_ch)
     PBMM2(sample_ch, reference)
     deepvariant_ch = DEEPVARIANT(PBMM2.out.bam, reference)
     VEP(deepvariant_ch.vcf, reference, vep_cache_dir)
-    SUMMARY(NANOPLOT.out.qc, PBMM2.out.bam, PBMM2.out.log, VEP.out.vep_vcf, targets)
+    SUMMARY(NANOPLOT.out.qc, PBMM2.out.bam, PBMM2.out.log, VEP.out.vep_vcf)
 }

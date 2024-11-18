@@ -8,7 +8,6 @@ process SUMMARY {
     tuple val(bam_id), path(bam), path(bai)
     path pbmm_log
     tuple val(vep_id), path(vep_vcf)
-    each path(bed)
 
     output:
     path "*", emit: summary
@@ -16,7 +15,7 @@ process SUMMARY {
     script:
     """
     getBamDepth \
-        --bed ${bed} \
+        --bed ${params.targets_bed} \
         --bam ${bam} \
         --thresholds 10,20,30,40,50,100 > ${bam_id}.depth.summary.tsv
     bcftools view \
@@ -24,7 +23,7 @@ process SUMMARY {
         bedtools intersect \
         -header \
         -a ${vep_vcf} \
-        -b ${bed} \
+        -b ${params.targets_bed} \
         -wa > ${vep_id}.PASS.NORM.VEP.ANN.FILTERED.ONTARGET.vcf
     convert_vep_vcf_to_tsv.sh \
         ${vep_id}.PASS.NORM.VEP.ANN.FILTERED.ONTARGET.vcf \
