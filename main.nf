@@ -5,6 +5,7 @@ include { PBMM2 } from './modules/pbmm2'
 include { DEEPVARIANT } from './modules/deepvariant'
 include { VEP } from './modules/vep'
 include { SUMMARY } from './modules/summary'
+include {MERGE_VCF} from './modules/merge_vcf'
 
 workflow {
     reference = Channel.fromPath(params.reference)
@@ -17,4 +18,6 @@ workflow {
     deepvariant_ch = DEEPVARIANT(aligned_bam_ch.bam, reference)
     ann_vcf_ch = VEP(deepvariant_ch.vcf, reference)
     SUMMARY(qc_results_ch.qc, aligned_bam_ch.bam, aligned_bam_ch.log, ann_vcf_ch.vep_vcf)
+    vcf_list_ch = ann_vcf_ch.vep_vcf.map { _id, vcf -> vcf }.collect()
+    MERGE_VCF(vcf_list_ch)
 }
