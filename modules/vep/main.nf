@@ -6,7 +6,6 @@ process VEP {
     input:
     tuple val(id), path(vcf), path(vcf_idx)
     each path(ref)
-    each path(vep_cache)
 
     output:
     tuple val(id), path("${id}.PASS.NORM.VEP.vcf"), emit: vep_vcf
@@ -21,13 +20,13 @@ process VEP {
         --stats_file ${id}.PASS.NORM.VEP.txt \
         --stats_text \
         --cache \
-        --dir_cache ${vep_cache} \
+        --dir_cache ${params.vep_cache_dir} \
         --merged \
         --fasta ${ref} \
         --fork ${params.vep_fork ?: 8} \
         --numbers --offline --hgvs --shift_hgvs 0 --terms SO --symbol \
         --sift b --polyphen b --total_length --ccds --canonical --biotype \
         --protein --xref_refseq --mane --pubmed --af --max_af --af_1kg --af_gnomadg \
-        --custom file=${vep_cache}/clinvar.vcf.gz,short_name=ClinVar,format=vcf,type=exact,coords=0,fields=CLNSIG%CLNREVSTAT%CLNDN
+        --custom file=${params.vep_cache_dir}/clinvar.vcf.gz,short_name=ClinVar,format=vcf,type=exact,coords=0,fields=CLNSIG%CLNREVSTAT%CLNDN
     """
 }
