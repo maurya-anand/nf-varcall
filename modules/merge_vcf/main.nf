@@ -11,10 +11,14 @@ process MERGE_VCF {
 
     script:
     """
-    for vcf in ${vcf_list}; do
-        bgzip \${vcf}
-        tabix -p vcf \${vcf}.gz
-    done;
+    for vcf in ${vcf_list.join(' ')}; do
+        if [[ "\$vcf" == *.vcf ]]; then
+            bgzip -c \$vcf > \$vcf.gz
+            tabix -p vcf \$vcf.gz
+        else
+            tabix -p vcf \$vcf
+        fi
+    done
     bcftools merge --merge none *.vcf.gz -Oz -o merged.vcf.gz
     tabix -p vcf merged.vcf.gz
     """

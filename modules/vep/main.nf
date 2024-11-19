@@ -1,28 +1,27 @@
 process VEP {
     tag "vep"
     label "VEP"
-    publishDir "${params.outdir}/vep/${id}", mode: 'copy'
+    publishDir "${params.outdir}/vep/", mode: 'copy'
 
     input:
-    tuple val(id), path(vcf), path(vcf_idx)
-    each path(ref)
+    tuple path(vcf), path(vcf_idx)
 
     output:
-    tuple val(id), path("${id}.PASS.NORM.VEP.vcf"), emit: vep_vcf
-    tuple val(id), path("${id}.PASS.NORM.VEP.txt"), emit: vep_txt
+    path("MERGED.PASS.NORM.VEP.vcf"), emit: vep_vcf
+    path("MERGED.PASS.NORM.VEP.txt"), emit: vep_txt
 
     script:
     """
     perl /opt/vep/src/ensembl-vep/vep --force_overwrite \
         --input_file ${vcf} \
         --vcf \
-        --output_file ${id}.PASS.NORM.VEP.vcf \
-        --stats_file ${id}.PASS.NORM.VEP.txt \
+        --output_file MERGED.PASS.NORM.VEP.vcf \
+        --stats_file MERGED.PASS.NORM.VEP.txt \
         --stats_text \
         --cache \
         --dir_cache ${params.vep_cache_dir} \
         --merged \
-        --fasta ${ref} \
+        --fasta ${params.reference} \
         --fork ${params.vep_fork ?: 8} \
         --numbers --offline --hgvs --shift_hgvs 0 --terms SO --symbol \
         --sift b --polyphen b --total_length --ccds --canonical --biotype \

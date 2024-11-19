@@ -5,7 +5,6 @@ process PBMM2 {
 
     input:
     tuple val(id), path(fastq)
-    each path(ref)
 
     output:
     tuple val(id), path("${id}.bam"), path("${id}.bam.bai"), emit: bam
@@ -19,7 +18,7 @@ process PBMM2 {
     --rg "@RG\\tID:${id}\\tSM:${id}" \
     --log-level INFO \
     --log-file ${id}.pbmm2.log \
-    ${ref} \
+    ${params.reference} \
     ${fastq} \
     ${id}.bam
     """
