@@ -8,6 +8,7 @@ process FILTER_VARIANTS {
 
     output:
     tuple val(id), path("${id}.PASS.NORM.VEP.ANN.FILTERED.ONTARGET.vcf.gz"), path("${id}.PASS.NORM.VEP.ANN.FILTERED.ONTARGET.vcf.gz.tbi"), emit: vcf
+    path "${id}.variant.count.tsv", emit: stat
 
     script:
     """
@@ -20,5 +21,8 @@ process FILTER_VARIANTS {
         -wa > ${id}.PASS.NORM.VEP.ANN.FILTERED.ONTARGET.vcf
     bgzip -c ${id}.PASS.NORM.VEP.ANN.FILTERED.ONTARGET.vcf > ${id}.PASS.NORM.VEP.ANN.FILTERED.ONTARGET.vcf.gz
     tabix -p vcf ${id}.PASS.NORM.VEP.ANN.FILTERED.ONTARGET.vcf.gz
+    variant_count=\$(zgrep -v "^#" "${vcf}" | wc -l)
+    filtered_variant_count=\$(zgrep -v "^#" ${id}.PASS.NORM.VEP.ANN.FILTERED.ONTARGET.vcf.gz | wc -l)
+    printf "%s\t%d\t%d\n" "${id}" "\${variant_count}" "\${filtered_variant_count}" > ${id}.variant.count.tsv
     """
 }
