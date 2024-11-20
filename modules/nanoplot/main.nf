@@ -1,7 +1,7 @@
 process NANOPLOT {
     tag "nanoqc"
     label "NanoQC"
-    publishDir "${params.outdir}/nanoqc/${id}", mode: 'copy'
+    publishDir "${params.outdir}/data_qc/${id}", mode: 'copy'
 
     input:
     tuple val(id), path(fastq)

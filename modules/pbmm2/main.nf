@@ -1,7 +1,7 @@
 process PBMM2 {
     tag "pbmm2"
     label "PBMM2"
-    publishDir "${params.outdir}/pbmm2/${id}", mode: 'copy'
+    publishDir "${params.outdir}/alignment/${id}", mode: 'copy'
 
     input:
     tuple val(id), path(fastq)

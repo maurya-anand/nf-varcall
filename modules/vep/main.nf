@@ -1,7 +1,7 @@
 process VEP {
     tag "vep"
     label "VEP"
-    publishDir "${params.outdir}/vep/", mode: 'copy'
+    publishDir "${params.outdir}/variant_annotation/", mode: 'copy'
 
     input:
     tuple path(vcf), path(vcf_idx)

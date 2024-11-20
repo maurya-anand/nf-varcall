@@ -1,7 +1,7 @@
 process DEEPVARIANT {
     tag "deepvariant"
     label "DeepVariant"
-    publishDir "${params.outdir}/deepvariant/${id}", mode: 'copy'
+    publishDir "${params.outdir}/variant_calling/${id}", mode: 'copy'
 
     input:
     tuple val(id), path(bam), path(bai)
