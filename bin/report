@@ -1,0 +1,69 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use Data::Dumper;
+
+my $sample_sheet = $ARGV[0];
+my $results_dir = $ARGV[1];
+my $out_file = "report.tsv";
+my %sample_map;
+
+open(OUT,">$out_file") or die "can't write to the output file\n";
+
+print OUT "Sample\tfastq_num_seqs\tfastq_sum_len\tfastq_min_len\tfastq_avg_len\tfastq_max_len\tfastq_Q1\tfastq_Q2\tfastq_Q3\tfastq_sum_gap\tfastq_N50\tfastq_Q20(%)\tfastq_Q30(%)\tfastq_GC(%)\ttotal_mapped_reads\ttotal_unmapped_reads\ttotal_alignment%\ttotal_variants\ttotal_filtered_variants\n";
+
+open(SAM,"$sample_sheet") or die "can't open the sample sheet $sample_sheet\n";
+my $header=<SAM>; chomp $header;
+while(my $rec=<SAM>){
+    chomp $rec;
+    my($sample_id,$path) = split(/\t/,$rec);
+    $sample_map{$sample_id}=$path;
+    my %qc_map = qc_stats($sample_id);
+    my $mapped_reads = alignment_stats($sample_id);
+    my ($total_variants, $total_filtered_variants) = variant_stats($sample_id);
+    my $unmapped_reads = $qc_map{'num_seqs'} - $mapped_reads;
+    my $alignment_perc = 0;
+    if ($mapped_reads != 0){
+        $alignment_perc = sprintf("%.2f",($mapped_reads/$qc_map{'num_seqs'})*100);
+    }
+    print OUT "$sample_id\t$qc_map{'num_seqs'}\t$qc_map{'sum_len'}\t$qc_map{'min_len'}\t$qc_map{'avg_len'}\t$qc_map{'max_len'}\t$qc_map{'Q1'}\t$qc_map{'Q2'}\t$qc_map{'Q3'}\t$qc_map{'sum_gap'}\t$qc_map{'N50'}\t$qc_map{'Q20%'}\t$qc_map{'Q30%'}\t$qc_map{'GC%'}\t$mapped_reads\t$unmapped_reads\t$alignment_perc\t$total_variants\t$total_filtered_variants\n";
+}
+
+close SAM;
+
+sub qc_stats{
+    my($id)=(@_);
+    my %qc_map;
+    my $path = "$results_dir/data_qc/$id/$id\_SeqKitStats.txt";
+    open(SEQKIT,"$path") or die "can't open the SeqKitStat $path\n";
+    my $header=<SEQKIT>; chomp $header;
+    my @col_names = split(/\t/,$header);
+    my $qc=<SEQKIT>; chomp $qc;
+    my @qc_metrics = split(/\t/,$qc);
+    for(my $i=0;$i<=$#col_names;$i++){
+        $col_names[$i] =~ s/[()]//g;
+        $qc_map{$col_names[$i]}=$qc_metrics[$i];
+    }
+    return (%qc_map);
+}
+
+sub alignment_stats{
+    my($id)=(@_);
+    my %qc_map;
+    my $path = "$results_dir/alignment/$id/$id.pbmm2.log";
+    my $mapped_reads_str = `grep "Mapped Reads" $path`;
+    chomp $mapped_reads_str;
+    my @mapped_reads_str_tmp = split(" ",$mapped_reads_str);
+    return $mapped_reads_str_tmp[-1];
+}
+
+sub variant_stats{
+    my($id)=(@_);
+    my %qc_map;
+    my $path = "$results_dir/variant_filtration/$id/$id.variant.count.tsv";
+    my $var_stats_str = `cat $path`;
+    chomp $var_stats_str;
+    my @var_stats_str_tmp = split(" ",$var_stats_str);
+    return ($var_stats_str_tmp[1],$var_stats_str_tmp[2]);
+}
