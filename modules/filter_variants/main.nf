@@ -1,7 +1,7 @@
 process FILTER_VARIANTS {
     tag "filter_variants"
     label "FILTER_VARIANTS"
-    publishDir "${params.outdir}/filtered_vcf/${id}", mode: 'copy'
+    publishDir "${params.outdir}/variant_filtration/${id}", mode: 'copy'
 
     input:
     tuple val(id), path(vcf), path(vcf_tbi)
