@@ -20,9 +20,10 @@ workflow {
     deepvariant_ch = DEEPVARIANT(aligned_bam_ch.bam)
     filtered_vcf_ch = FILTER_VARIANTS(deepvariant_ch.vcf)
     vcf_list_ch = filtered_vcf_ch.vcf.map { _id, vcf, _idx -> vcf }.collect()
+    var_counts_ch = filtered_vcf_ch.stat.collect()
     merged_vcf_ch = MERGE_VCF(vcf_list_ch)
     ann_vcf_ch = VEP(merged_vcf_ch.vcf)
     qc_stats_ch = qc_results_ch.stats.collect()
     aln_cov_ch = aln_summary_ch.summary.flatMap { _id, flagstat, coverage, depth -> [flagstat, coverage, depth] }.collect()
-    REPORT(qc_stats_ch, aln_cov_ch, ann_vcf_ch.vep_vcf)
+    REPORT(qc_stats_ch, aln_cov_ch, ann_vcf_ch.vep_vcf, var_counts_ch)
 }
