@@ -23,7 +23,9 @@ workflow {
     merged_vcf_ch = MERGE_VCF(vcf_list_ch)
     ann_vcf_ch = VEP(merged_vcf_ch.vcf)
     
-    // qc_results_ch.qc.view()
+    qc_stats_ch = qc_results_ch.stats.collect()
+    qc_stats_ch.view()
     aln_summary_ch.summary.view()
     ann_vcf_ch.vep_vcf.view()
+    
 }
