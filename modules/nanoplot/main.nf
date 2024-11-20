@@ -7,7 +7,8 @@ process NANOPLOT {
     tuple val(id), path(fastq)
 
     output:
-    path "*", emit: qc
+    path "*.{html,svg}", emit: qc
+    path "${id}_NanoStats.txt", emit: stats
 
     script:
     """
@@ -15,6 +16,7 @@ process NANOPLOT {
         --fastq ${fastq} \
         --format svg \
         --title ${id} \
+        --prefix ${id}_ \
         --tsv_stats \
         --info_in_report
     """
