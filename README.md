@@ -59,8 +59,8 @@ Example `sample_sheet.tsv`:
 
 ```text
 name    path
-sample1 data/fastq/sample1.hifi.fastq.gz
-sample2 data/fastq/sample2.hifi.fastq.gz
+sample1 data/fastq/sample1.fastq.gz
+sample2 data/fastq/sample2.fastq.gz
 ```
 
 ## Output
@@ -71,10 +71,14 @@ The following directory structure shows how the results are organized:
 
 ```bash
 results_nf-varcall/
-├── nanoqc      # Quality control reports (.txt)
-├── pbmm2       # Alignment results (.bam)
-├── deepvariant # Variant calling outputs (.vcf)
-└── vep         # Annotated variants (.vcf)
+├── data_qc
+├── alignment
+├── alignment_summary
+├── variant_calling
+├── variant_filtration
+├── vcf_merge
+├── variant_annotation
+└── report
 ```
 
 ## Configuration
