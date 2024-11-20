@@ -5,9 +5,9 @@ include { PBMM2 } from './modules/pbmm2'
 include { DEEPVARIANT } from './modules/deepvariant'
 include { MERGE_VCF } from './modules/merge_vcf'
 include { VEP } from './modules/vep'
-include { SUMMARY } from './modules/summary'
 include { FILTER_VARIANTS } from './modules/filter_variants'
 include { ALIGNMENT_SUMMARY } from './modules/alignment_summary'
+include { REPORT } from './modules/report'
 
 workflow {
     sample_ch = Channel
@@ -22,10 +22,7 @@ workflow {
     vcf_list_ch = filtered_vcf_ch.vcf.map { _id, vcf, _idx -> vcf }.collect()
     merged_vcf_ch = MERGE_VCF(vcf_list_ch)
     ann_vcf_ch = VEP(merged_vcf_ch.vcf)
-    
     qc_stats_ch = qc_results_ch.stats.collect()
-    qc_stats_ch.view()
-    aln_summary_ch.summary.view()
-    ann_vcf_ch.vep_vcf.view()
-    
+    aln_cov_ch = aln_summary_ch.summary.flatMap { _id, flagstat, coverage, depth -> [flagstat, coverage, depth] }.collect()
+    REPORT(qc_stats_ch, aln_cov_ch, ann_vcf_ch.vep_vcf)
 }
