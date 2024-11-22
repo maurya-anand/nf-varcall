@@ -1,13 +1,13 @@
 #!/usr/bin/env nextflow
 
-include { DATA_QC } from './modules/data_qc'
-include { PBMM2 } from './modules/pbmm2'
-include { DEEPVARIANT } from './modules/deepvariant'
-include { MERGE_VCF } from './modules/merge_vcf'
-include { VEP } from './modules/vep'
-include { FILTER_VARIANTS } from './modules/filter_variants'
-include { ALIGNMENT_SUMMARY } from './modules/alignment_summary'
-include { REPORT } from './modules/report'
+include { DATA_QC } from './modules/local/data_qc'
+include { PBMM2 } from './modules/local/pbmm2'
+include { DEEPVARIANT } from './modules/local/deepvariant'
+include { MERGE_VCF } from './modules/local/merge_vcf'
+include { VEP } from './modules/local/vep'
+include { FILTER_VARIANTS } from './modules/local/filter_variants'
+include { ALIGNMENT_SUMMARY } from './modules/local/alignment_summary'
+include { REPORT } from './modules/local/report'
 
 workflow {
     sample_ch = Channel
