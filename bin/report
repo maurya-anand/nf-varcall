@@ -10,115 +10,54 @@ my $out_file = "report.tsv";
 my %sample_map;
 my %all_keys;
 
-# First pass to collect all keys
-open(SAM, "<", $sample_sheet) or die "Can't open the sample sheet $sample_sheet\n";
+open(SAM, "$sample_sheet") or die "Can't open the sample sheet $sample_sheet\n";
 my $header = <SAM>;
 chomp $header;
-
 while (my $rec = <SAM>) {
     chomp $rec;
     my ($sample_id, $path) = split(/\t/, $rec);
     $sample_map{$sample_id} = $path;
-
-    # Get QC stats
     my %qc_map = qc_stats($sample_id);
     unless (%qc_map) {
         %qc_map = nano_stats($sample_id);
     }
-
-    # Collect all unique keys
     foreach my $key (keys %qc_map) {
         $all_keys{$key} = 1;
     }
 }
 close SAM;
 
-# Create the header dynamically
-open(OUT, ">", $out_file) or die "Can't write to the output file\n";
+open(OUT, ">$out_file") or die "Can't write to the output file\n";
 print OUT "Sample\t";
 print OUT join("\t", sort keys %all_keys);
 print OUT "\tTotal_Mapped_Reads\tTotal_Unmapped_Reads\tTotal_Alignment%\tTotal_Variants\tTotal_Filtered_Variants\n";
 
-# Second pass to output the data
-open(SAM, "<", $sample_sheet) or die "Can't open the sample sheet $sample_sheet\n";
+open(SAM, "$sample_sheet") or die "Can't open the sample sheet $sample_sheet\n";
 $header = <SAM>;
 chomp $header;
-
 while (my $rec = <SAM>) {
     chomp $rec;
     my ($sample_id, $path) = split(/\t/, $rec);
-
-    # Get QC stats
     my %qc_map = qc_stats($sample_id);
     unless (%qc_map) {
         %qc_map = nano_stats($sample_id);
     }
-
     my $mapped_reads = alignment_stats($sample_id);
     my ($total_variants, $total_filtered_variants) = variant_stats($sample_id);
-
-    # Calculate unmapped reads and alignment percentage
     my $num_seqs = $qc_map{'num_seqs'} || $qc_map{'number_of_reads'} || 0;
     my $unmapped_reads = $num_seqs - $mapped_reads;
     my $alignment_perc = 0;
     if ($mapped_reads && $num_seqs) {
         $alignment_perc = sprintf("%.2f", ($mapped_reads / $num_seqs) * 100);
     }
-
-    # Print sample ID
     print OUT "$sample_id\t";
-
-    # Print QC metrics based on collected keys
     foreach my $key (sort keys %all_keys) {
         print OUT ($qc_map{$key} // '.') . "\t";
     }
-
-    # Print alignment and variant stats
     print OUT "$mapped_reads\t$unmapped_reads\t$alignment_perc\t$total_variants\t$total_filtered_variants\n";
 }
 close SAM;
 close OUT;
-
-# open(OUT,">$out_file") or die "can't write to the output file\n";
-
-# print OUT "Sample\tfastq_num_seqs\tfastq_sum_len\tfastq_min_len\tfastq_avg_len\tfastq_max_len\tfastq_Q1\tfastq_Q2\tfastq_Q3\tfastq_sum_gap\tfastq_N50\tfastq_Q20(%)\tfastq_Q30(%)\tfastq_GC(%)\ttotal_mapped_reads\ttotal_unmapped_reads\ttotal_alignment%\ttotal_variants\ttotal_filtered_variants\n";
-
-# open(SAM,"$sample_sheet") or die "can't open the sample sheet $sample_sheet\n";
-# my $header=<SAM>; chomp $header;
-# while(my $rec=<SAM>){
-#     chomp $rec;
-#     my($sample_id,$path) = split(/\t/,$rec);
-#     $sample_map{$sample_id}=$path;
-#     my %qc_map = qc_stats($sample_id);
-#     unless (%qc_map) {
-#         %qc_map = nano_stats($sample_id);
-#     }
-#     my $mapped_reads = alignment_stats($sample_id);
-#     my ($total_variants, $total_filtered_variants) = variant_stats($sample_id);
-#     my $num_seqs = $qc_map{'num_seqs'} || $qc_map{'number_of_reads'} || 0;
-#     my $unmapped_reads  = $num_seqs - $mapped_reads;
-#     my $alignment_perc = 0;
-#     if ($mapped_reads && $num_seqs) {
-#         $alignment_perc = sprintf("%.2f", ($mapped_reads / $num_seqs) * 100);
-#     }
-#     print OUT "$sample_id\t";
-#     print OUT ($qc_map{'num_seqs'} || $qc_map{'number_of_reads'} || '.') . "\t";
-#     print OUT ($qc_map{'sum_len'} || $qc_map{'number_of_bases'} || '.') . "\t";
-#     print OUT ($qc_map{'min_len'} || $qc_map{'median_read_length'} || '.') . "\t";
-#     print OUT ($qc_map{'avg_len'} || $qc_map{'mean_read_length'} || '.') . "\t";
-#     print OUT ($qc_map{'max_len'} || '.') . "\t";
-#     print OUT ($qc_map{'Q1'} || '.') . "\t";
-#     print OUT ($qc_map{'Q2'} || '.') . "\t";
-#     print OUT ($qc_map{'Q3'} || '.') . "\t";
-#     print OUT ($qc_map{'sum_gap'} || '.') . "\t";
-#     print OUT ($qc_map{'N50'} || $qc_map{'n50'} || '') . "\t";
-#     print OUT ($qc_map{'Q20%'} || '.') . "\t";
-#     print OUT ($qc_map{'Q30%'} || '.') . "\t";
-#     print OUT ($qc_map{'GC%'} || '.') . "\t";
-#     print OUT "$mapped_reads\t$unmapped_reads\t$alignment_perc\t$total_variants\t$total_filtered_variants\n";
-# }
-
-# close SAM;
 
 sub qc_stats{
     my($id)=(@_);
