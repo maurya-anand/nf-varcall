@@ -7,7 +7,7 @@ process PBMM2 {
     tuple val(id), path(fastq)
 
     output:
-    tuple val(id), path("${id}.bam"), path("${id}.bam.bai"), emit: bam
+    tuple val(id), path("${id}.aligned.bam"), path("${id}.aligned.bam.bai"), emit: bam
     path "${id}.pbmm2.log", emit: log
 
     script:
@@ -20,6 +20,6 @@ process PBMM2 {
     --log-file ${id}.pbmm2.log \
     ${params.reference} \
     ${fastq} \
-    ${id}.bam
+    ${id}.aligned.bam
     """
 }
