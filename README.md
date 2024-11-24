@@ -69,45 +69,42 @@ To run the pipeline, execute the following command:
 
 ```bash
 nextflow run main.nf \
-    --sample_sheet <sample_sheet.tsv>\
-    --reference <reference.fa>\
-    --vep_cache_dir <vep_cache_dir> \
-    --vep_fork <threads> \
-    [--outdir <output_directory>]
-```
-
-### Example
-
-```bash
-nextflow run main.nf \
     --sample_sheet data/sample_sheet.tsv \
-    --reference data/ref/Homo_sapiens.GRCh38.dna.primary_assembly.fa \
-    --vep_cache_dir data/vep_cache/ \
-    --vep_fork 4 \
+    --reference data/ref/Homo_sapiens.GRCh38.dna.chromosome.22.fa \
+    --vep_cache_dir data/ref/vep_cache/ \
+    --targets_bed data/targets-CYP2D6.bed \
+    --vep_fork 12 \
+    --vcf_filter_QUAL 30 \
+    --vcf_filter_DEPTH 10 \
     --outdir results_nf-varcall
 ```
 
 ## Input
 
-- `--sample_sheet`: Path to the sample sheet TSV file. Example: `sample_sheet.tsv`
-- `--reference`: Path to the reference genome FASTA file. Example: `data/ref/Homo_sapiens.GRCh38.dna.primary_assembly.fa`
+- `--sample_sheet`: Path to the sample sheet TSV file. (required) Example: `data/sample_sheet.tsv`
+- `--reference`: Path to the reference genome FASTA file. (required) Example: `data/ref/Homo_sapiens.GRCh38.dna.chromosome.22.fa`
+- `--targets_bed`: Path to the BED file containing target regions. (optional) Example: `data/targets-CYP2D6.bed`
 - `--outdir`: Directory where outputs will be saved. Default: `results_nf-varcall`
-- `--vep_cache_dir`: Path to the VEP cache directory for variant annotation.
+- `--vep_cache_dir`: Path to the VEP cache directory for variant annotation. (required)
 - `--vep_fork`: Number of threads to use with the VEP tool.
+- `--vcf_filter_QUAL`: Quality threshold for filtering variants in the VCF file. Variants with a quality score below this threshold will be filtered out. Default: `30`
+- `--vcf_filter_DEPTH`: Depth threshold for filtering variants in the VCF file. Variants with a depth below this threshold will be filtered out. Default: `10`
 
 ### Sample Sheet Format
 
 The sample sheet should be a tab-separated file with a header and the following columns:
 
 - `name`: Sample identifier.
-- `path`: Path to the FASTQ file for the sample.
+- `path`: The file path to the PacBio HiFi sequencing FASTQ or unaligned BAM file for the sample.
 
 Example `sample_sheet.tsv`:
 
 ```text
 name    path
-sample1 data/fastq/sample1.fastq.gz
-sample2 data/fastq/sample2.fastq.gz
+sample1 data/bam/sample1.bam
+sample2 data/bam/sample2.bam
+sample3 data/fastq/sample3.fastq.gz
+sample4 data/fastq/sample4.fastq.gz
 ```
 
 ## Output
