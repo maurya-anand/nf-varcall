@@ -11,6 +11,11 @@ SAMPLE_SHEET = $(BASE_DIR)/data/sample_sheet.tsv
 VEP_URL = https://ftp.ensembl.org/pub/release-113/variation/indexed_vep_cache/homo_sapiens_merged_vep_113_GRCh38.tar.gz
 VEP_FILE = $(VEP_CACHE_DIR)/homo_sapiens_merged_vep_113_GRCh38.tar.gz
 
+CLIN_VCF_URL = https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz
+CLIN_VCF_IDX_URL = https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz.tbi
+VCF_FILE = $(VEP_CACHE_DIR)/clinvar.vcf.gz
+VCF_IDX_FILE = $(VEP_CACHE_DIR)/clinvar.vcf.gz.tbi
+
 FASTA_URL = https://ftp.ensembl.org/pub/release-113/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.22.fa.gz
 FASTA_FILE = $(REF_DIR)/Homo_sapiens.GRCh38.dna.chromosome.22.fa.gz
 FASTA_UNZIPPED = $(REF_DIR)/Homo_sapiens.GRCh38.dna.chromosome.22.fa
@@ -35,6 +40,8 @@ $(BED_FILE):
 $(VEP_CACHE_DIR)/.done:
 	[ -d $(VEP_CACHE_DIR) ] || mkdir -p $(VEP_CACHE_DIR)
 	[ -f $(VEP_FILE) ] || curl -o $(VEP_FILE) $(VEP_URL)
+	[ -f $(VCF_FILE) ] || curl -o $(VCF_FILE) $(CLIN_VCF_URL)
+	[ -f $(VCF_IDX_FILE) ] || curl -o $(VCF_IDX_FILE) $(CLIN_VCF_IDX_URL)
 	[ -f $(VEP_CACHE_DIR)/.done ] || (tar xzf $(VEP_FILE) -C $(VEP_CACHE_DIR) && rm $(VEP_FILE) && touch $(VEP_CACHE_DIR)/.done)
 
 $(FASTA_UNZIPPED):
