@@ -7,6 +7,53 @@ nf-varcall is a Nextflow pipeline for variant calling and annotation using PacBi
 - Nextflow
 - Docker
 
+## Setting Up Reference and VEP Annotation
+
+To set up the Homo sapiens GRCh38 113 reference and VEP annotation, you can use the provided Makefile. This will download and prepare the necessary files.
+
+Run the following command in the root directory of the project:
+
+```bash
+make
+```
+
+This will download the reference genome, VEP cache, and other required files, and place them in the following directories:
+
+```bash
+data/
+├── bam
+│   ├── NA02016.bam
+│   └── NA07439.bam
+├── ref
+│   ├── Homo_sapiens.GRCh38.dna.chromosome.22.fa
+│   └── vep_cache
+│       └── homo_sapiens_merged
+├── sample_sheet.tsv
+└── targets-CYP2D6.bed
+```
+
+Make sure to update the `nextflow.config` accordingly to correctly point to the `reference`, `vep_cache_dir`, and `targets_bed`.
+
+```groovy
+params {
+    // General parameters
+    sample_sheet = "${baseDir}/data/sample_sheet.tsv"
+    outdir = "${baseDir}/results_nf-varcall"
+
+    // Reference data
+    reference = "${baseDir}/data/ref/Homo_sapiens.GRCh38.dna.chromosome.22.fa"
+    vep_cache_dir = "${baseDir}/data/ref/vep_cache"
+    targets_bed = "${baseDir}/data/targets-CYP2D6.bed"
+
+    // VEP parameters
+    vep_fork = 12
+
+    // VCF filtering parameters
+    vcf_filter_QUAL = 30
+    vcf_filter_DEPTH = 10
+}
+```
+
 ## Modules
 
 The pipeline includes the following modules:
@@ -34,7 +81,7 @@ nextflow run main.nf \
 ```bash
 nextflow run main.nf \
     --sample_sheet data/sample_sheet.tsv \
-    --reference data/ref/Homo_sapiens.GRCh38.fa \
+    --reference data/ref/Homo_sapiens.GRCh38.dna.primary_assembly.fa \
     --vep_cache_dir data/vep_cache/ \
     --vep_fork 4 \
     --outdir results_nf-varcall
@@ -43,7 +90,7 @@ nextflow run main.nf \
 ## Input
 
 - `--sample_sheet`: Path to the sample sheet TSV file. Example: `sample_sheet.tsv`
-- `--reference`: Path to the reference genome FASTA file. Example: `data/ref/Homo_sapiens.GRCh38.fa`
+- `--reference`: Path to the reference genome FASTA file. Example: `data/ref/Homo_sapiens.GRCh38.dna.primary_assembly.fa`
 - `--outdir`: Directory where outputs will be saved. Default: `results_nf-varcall`
 - `--vep_cache_dir`: Path to the VEP cache directory for variant annotation.
 - `--vep_fork`: Number of threads to use with the VEP tool.
