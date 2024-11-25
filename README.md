@@ -139,10 +139,15 @@ Ensure Docker is installed and running. The pipeline uses Docker containers spec
 
 ## Refrences
 
-- Danecek, P., Bonfield, J. K., Liddle, J., Marshall, J., Ohan, V., Pollard, M. O., Whitwham, A., Keane, T., McCarthy, S. A., Davies, R. M., & Li, H. (2021). Twelve years of SAMtools and BCFtools. GigaScience, 10(2). [https://doi.org/10.1093/gigascience/giab008](https://doi.org/10.1093/gigascience/giab008)
+- Application note HiFi amplicon sequencing for pharmacogenetics CYP2D6. (2022, October 7). PacBio. https://pacbio.cn/literature/application-note-hifi-amplicon-sequencing-for-pharmacogenetics-cyp2d6/
+- Danecek, P., Bonfield, J. K., Liddle, J., Marshall, J., Ohan, V., Pollard, M. O., Whitwham, A., Keane, T., McCarthy, S. A., Davies, R. M., & Li, H. (2021). Twelve years of SAMtools and BCFtools. GigaScience, 10(2). https://doi.org/10.1093/gigascience/giab008
 - De Coster, W., & Rademakers, R. (2023). NanoPack2: population-scale evaluation of long-read sequencing data. Bioinformatics, 39(5), btad311.
 - Di Tommaso, P., Chatzou, M., Floden, E. W., Barja, P. P., Palumbo, E., & Notredame, C. (2017). Nextflow enables reproducible computational workflows. Nature Biotechnology, 35(4), 316–319.
-- GitHub - PacificBiosciences/pbmm2: A minimap2 frontend for PacBio native data formats. (n.d.). GitHub. Retrieved November 25, 2024, from [https://github.com/PacificBiosciences/pbmm2](https://github.com/PacificBiosciences/pbmm2)
+- Dirk Merkel. 2014. Docker: lightweight Linux containers for consistent development and deployment. Linux J. 2014, 239, Article 2 (March 2014)
+- GitHub - mamba-org/mamba: The Fast Cross-Platform Package Manager. (n.d.). GitHub. Retrieved November 25, 2024, from https://github.com/mamba-org/mamba
+- GitHub - PacificBiosciences/pbmm2: A minimap2 frontend for PacBio native data formats. (n.d.). GitHub. Retrieved November 25, 2024, from https://github.com/PacificBiosciences/pbmm2
+- Grüning, B., Dale, R., Sjödin, A., Chapman, B. A., Rowe, J., Tomkins-Tinch, C. H., Valieris, R., Köster, J., & Bioconda Team. (2018). Bioconda: sustainable and comprehensive software distribution for the life sciences. Nature Methods, 15(7), 475–476.
+- Landrum, M. J., Lee, J. M., Riley, G. R., Jang, W., Rubinstein, W. S., Church, D. M., & Maglott, D. R. (2014). ClinVar: public archive of relationships among sequence variation and human phenotype. Nucleic Acids Research, 42(Database issue), D980–D985.
 - McLaren, W., Gil, L., Hunt, S. E., Riat, H. S., Ritchie, G. R. S., Thormann, A., Flicek, P., & Cunningham, F. (2016). The Ensembl Variant Effect Predictor. Genome Biology, 17(1), 1–14.
 - Poplin, R., Chang, P.-C., Alexander, D., Schwartz, S., Colthurst, T., Ku, A., Newburger, D., Dijamco, J., Nguyen, N., Afshar, P. T., Gross, S. S., Dorfman, L., McLean, C. Y., & DePristo, M. A. (2018). A universal SNP and small-indel variant caller using deep neural networks. Nature Biotechnology, 36(10), 983–987.
 - Quinlan, A. R., & Hall, I. M. (2010). BEDTools: a flexible suite of utilities for comparing genomic features. Bioinformatics (Oxford, England), 26(6), 841–842.
