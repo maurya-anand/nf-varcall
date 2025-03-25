@@ -2,7 +2,7 @@
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/maurya-anand/nf-varcall/publish.yml?style=flat-square)&nbsp;&nbsp;
 ![GitHub release (with filter)](https://img.shields.io/github/v/release/maurya-anand/nf-varcall?style=flat-square)&nbsp;&nbsp;
-![https://doi.org/10.5281/zenodo.14216029](https://zenodo.org/badge/DOI/10.5281/zenodo.14216029.svg)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15082875.svg)](https://doi.org/10.5281/zenodo.15082875)
 
 nf-varcall is a Nextflow pipeline for variant calling and annotation using PacBio Hi-Fi sequencing reads.
 
@@ -141,7 +141,7 @@ Ensure Docker is installed and running. The pipeline uses Docker containers spec
 
 If you use `nf-varcall` pipeline for your analysis, please cite:
 
-> Anand Maurya. (2024). maurya-anand/nf-varcall. Zenodo. https://doi.org/10.5281/zenodo.14216029
+> Anand Maurya. (2024). maurya-anand/nf-varcall. Zenodo. https://doi.org/10.5281/zenodo.15082875
 
 ## Refrences
 
