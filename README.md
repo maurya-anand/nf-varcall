@@ -133,9 +133,15 @@ results_nf-varcall/
 
 The pipeline can be customized via the `nextflow.config` file. Adjust settings such as inputs and process-level configurations as needed.
 
-### Running with Docker
+## Running with Docker
 
 Ensure Docker is installed and running. The pipeline uses Docker containers specified in the `conf/process.config` for different processes in the pipeline.
+
+### Citation
+
+If you use `nf-varcall` pipeline for your analysis, please cite:
+
+> Anand Maurya. (2024). maurya-anand/nf-varcall. Zenodo. https://doi.org/10.5281/zenodo.14216029
 
 ## Refrences
 
