@@ -2,7 +2,7 @@
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/maurya-anand/nf-varcall/publish.yml?style=flat-square)&nbsp;&nbsp;
 ![GitHub release (with filter)](https://img.shields.io/github/v/release/maurya-anand/nf-varcall?style=flat-square)&nbsp;&nbsp;
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14216029.svg)](https://doi.org/10.5281/zenodo.14216029)
+![https://doi.org/10.5281/zenodo.14216029](https://zenodo.org/badge/DOI/10.5281/zenodo.14216029.svg)
 
 nf-varcall is a Nextflow pipeline for variant calling and annotation using PacBio Hi-Fi sequencing reads.
 
